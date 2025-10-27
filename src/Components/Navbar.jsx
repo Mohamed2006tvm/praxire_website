@@ -52,11 +52,11 @@ const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 bg-[#FBFBFC] shadow-sm">
       <div className="max-w-[1400px] w-[90%] mx-auto py-4 flex justify-between items-center relative">
-        
         {/* 🌟 Brand Text (kept original animation + glow) */}
         <h1 className="glow-text text-[26px] font-extrabold tracking-wide">
           {text}
           <span className="cursor">|</span>
+          
         </h1>
 
         {/* 📱 Animated Mobile Menu Button (new feature added) */}
