@@ -1,0 +1,23 @@
+.glow-text {
+  color: #8f62f6;
+  text-shadow: 0 0 10px #b694fa, 0 0 20px #a174f8, 0 0 30px #8f62f6;
+  transition: all 0.3s ease-in-out;
+}
+
+.cursor {
+  color: #8f62f6;
+  animation: blink 0.9s infinite;
+}
+
+@keyframes blink {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+  25%, 75% {
+    opacity: 0;
+  }
+}
+
+.glow-text:hover {
+  text-shadow: 0 0 15px #b694fa, 0 0 30px #a174f8, 0 0 45px #8f62f6;
+}
