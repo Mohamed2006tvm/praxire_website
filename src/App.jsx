@@ -6,7 +6,7 @@ import HomePage from './Components/HomePage';
 const App = () => {
   return (
     <div>
-      {/* <ServicePage /> */}
+      {/* <Servicepage /> */}
       <Router>
         <Routes>
           <Route path="/" index element={<HomePage />} />
