@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import FooterPage from "./FooterPage";
 import Navbar from "./Navbar";
 
@@ -8,10 +8,13 @@ const ContactPage = () => {
     name: "",
     phonenumber: "",
     email: "",
-    requiredservice: [], // Array for multiple services
+    requiredservice: [],
     description: "",
     expectedbudget: "",
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [alert, setAlert] = useState({ show: false, type: "", message: "" });
 
   const SHEET_URL = "https://sheetdb.io/api/v1/85gwysjf7z5xo";
 
@@ -21,13 +24,14 @@ const ContactPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     const now = new Date();
     const dataToSend = {
       name: formData.name,
       phonenumber: formData.phonenumber,
       email: formData.email,
-      requiredservice: formData.requiredservice.join(", "), // Convert array to comma-separated string
+      requiredservice: formData.requiredservice.join(", "),
       description: formData.description,
       expectedbudget: formData.expectedbudget,
       date_iso: now.toISOString(),
@@ -43,7 +47,11 @@ const ContactPage = () => {
 
       const result = await response.json();
       if (response.ok) {
-        alert("✅ Form submitted successfully!");
+        setAlert({
+          show: true,
+          type: "success",
+          message: "✅ Message sent successfully!",
+        });
         setFormData({
           name: "",
           phonenumber: "",
@@ -53,17 +61,46 @@ const ContactPage = () => {
           expectedbudget: "",
         });
       } else {
-        alert("❌ Failed to submit. Check console for details.");
+        setAlert({
+          show: true,
+          type: "error",
+          message: "❌ Failed to send message. Please try again.",
+        });
       }
     } catch (err) {
-      console.error("⚠️ Error connecting to SheetDB:", err);
-      alert("⚠️ Network error — check console.");
+      setAlert({
+        show: true,
+        type: "error",
+        message: "⚠️ Network error — please check your connection.",
+      });
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => setAlert({ show: false, type: "", message: "" }), 4000);
     }
   };
 
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden relative">
       <Navbar />
+
+      {/* ALERT POPUP */}
+      <AnimatePresence>
+        {alert.show && (
+          <motion.div
+            initial={{ opacity: 0, y: -50, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -40, scale: 0.9 }}
+            transition={{ duration: 0.4 }}
+            className={`fixed top-5 left-1/2 -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg z-[9999] text-white text-sm font-medium ${
+              alert.type === "success"
+                ? "bg-gradient-to-r from-green-500 to-emerald-600"
+                : "bg-gradient-to-r from-red-500 to-pink-600"
+            }`}
+          >
+            {alert.message}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* HERO SECTION */}
       <motion.div
@@ -105,26 +142,20 @@ const ContactPage = () => {
           transition={{ type: "spring", stiffness: 200 }}
           className="border-[2px] p-[20px] border-[#E6E6E6] rounded-[10px] gap-[20px] flex flex-col lg:w-[500px] shadow-xl bg-white backdrop-blur-sm"
         >
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <h1 className="text-[23px] font-semibold text-[#333]">
-              Send us a Message
-            </h1>
-            <p className="text-[#898991] text-[12px] md:text-[14px]">
-              Fill out the form below and we'll get back to you shortly.
-            </p>
-          </motion.div>
+          <h1 className="text-[23px] font-semibold text-[#333]">
+            Send us a Message
+          </h1>
+          <p className="text-[#898991] text-[12px] md:text-[14px]">
+            Fill out the form below and we'll get back to you shortly.
+          </p>
 
           {[
             { name: "name", placeholder: "Your name" },
-            { name: "phonenumber", placeholder: "Your phone number" },
+            { name: "phone number", placeholder: "Your phone number" },
             { name: "email", placeholder: "Your.email@example.com", type: "email" },
-            { name: "requiredservice" }, // checkbox handled separately
+            { name: "requiredservice" },
             { name: "description", placeholder: "Tell us about your project..." },
-            { name: "expectedbudget", placeholder: "Expected budget" },
+            { name: "expected budget(USD)", placeholder: "Expected budget" },
           ].map((field, index) => (
             <motion.div
               key={field.name}
@@ -139,34 +170,41 @@ const ContactPage = () => {
 
               {field.name === "requiredservice" ? (
                 <div className="flex flex-col gap-1">
-                  {["Web Development", "UI/UX", "Video Editing", "Digital Marketing"].map((service) => (
-                    <label key={service} className="flex items-center gap-2 text-[14px]">
-                      <input
-                        type="checkbox"
-                        name="requiredservice"
-                        value={service}
-                        checked={formData.requiredservice.includes(service)}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          setFormData((prev) => {
-                            if (prev.requiredservice.includes(value)) {
-                              return {
-                                ...prev,
-                                requiredservice: prev.requiredservice.filter((s) => s !== value),
-                              };
-                            } else {
-                              return {
-                                ...prev,
-                                requiredservice: [...prev.requiredservice, value],
-                              };
-                            }
-                          });
-                        }}
-                        className="accent-[#895AF6]"
-                      />
-                      {service}
-                    </label>
-                  ))}
+                  {["Web Development", "UI/UX", "Video Editing", "Digital Marketing"].map(
+                    (service) => (
+                      <label
+                        key={service}
+                        className="flex items-center gap-2 text-[14px]"
+                      >
+                        <input
+                          type="checkbox"
+                          name="requiredservice"
+                          value={service}
+                          checked={formData.requiredservice.includes(service)}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            setFormData((prev) => {
+                              if (prev.requiredservice.includes(value)) {
+                                return {
+                                  ...prev,
+                                  requiredservice: prev.requiredservice.filter(
+                                    (s) => s !== value
+                                  ),
+                                };
+                              } else {
+                                return {
+                                  ...prev,
+                                  requiredservice: [...prev.requiredservice, value],
+                                };
+                              }
+                            });
+                          }}
+                          className="accent-[#895AF6]"
+                        />
+                        {service}
+                      </label>
+                    )
+                  )}
                 </div>
               ) : field.name !== "description" ? (
                 <motion.input
@@ -194,18 +232,35 @@ const ContactPage = () => {
             </motion.div>
           ))}
 
+          {/* SUBMIT BUTTON */}
           <motion.button
-            whileHover={{
-              scale: 1.05,
-              backgroundColor: "#6e42c1",
-              boxShadow: "0px 4px 15px rgba(137, 90, 246, 0.4)",
-            }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={!isSubmitting && { scale: 1.05 }}
+            whileTap={!isSubmitting && { scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300 }}
             type="submit"
-            className="bg-[#895AF6] w-full py-2 rounded-[8px] text-[16px] font-medium text-white duration-300"
+            disabled={isSubmitting}
+            className={`w-full py-2 rounded-[8px] text-[16px] font-medium text-white duration-300 ${
+              isSubmitting
+                ? "bg-gradient-to-r from-[#C1A3FF] to-[#A67CFF] cursor-not-allowed"
+                : "bg-[#895AF6] hover:bg-[#6e42c1]"
+            }`}
           >
-            Send Message
+            {isSubmitting ? (
+              <motion.div
+                className="flex items-center justify-center gap-2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                  className="w-5 h-5 border-[3px] border-t-transparent border-white rounded-full"
+                />
+                <span>Sending...</span>
+              </motion.div>
+            ) : (
+              "Send Message"
+            )}
           </motion.button>
         </motion.form>
       </motion.div>
