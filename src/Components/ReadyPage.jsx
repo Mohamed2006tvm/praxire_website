@@ -35,7 +35,7 @@ const ReadyPage = () => {
 
         {/* Button Hover Animation */}
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          <Link to="/Service">
+          <Link to="/Contact">
             <motion.button
               className="bg-[#895AF6] text-white px-8 py-3 rounded-xl text-base font-medium hover:shadow-lg hover:bg-[#7A4BC0] transition-all duration-300"
             >

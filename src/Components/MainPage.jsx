@@ -40,7 +40,7 @@ const MainPage = () => {
 
         {/* Premium Heading Animation */}
         <motion.h1
-          className="md:text-[70px] sm:text-[35px] text-[25px] font-bold sm:w-[90%] md:w-[60%] w-[90%] text-center md:leading-[70px]"
+          className="md:text-[70px] sm:text-[35px] text-[35px] font-bold sm:w-[90%] md:w-[60%] w-[90%] text-center md:leading-[70px]"
           variants={container}
           initial="hidden"
           whileInView="show"
