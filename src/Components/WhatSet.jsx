@@ -67,7 +67,7 @@ const App = () => {
       </motion.h1>
 
       <motion.div
-        className="flex text-start space-x-1 gap-8 mt-10 mb-20 sm:flex-row flex-col px-4"
+        className="flex text-start justify-center space-x-1 gap-8 mt-10 mb-20 sm:flex-row flex-col px-4"
         variants={containerVariants}
       >
         {cards.map((card, index) => (

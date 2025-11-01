@@ -26,18 +26,18 @@ const ServicePage = () => {
         "Secure & Scalable",
       ],
     },
-    {
-      icon: <Smartphone className="w-[30px] h-[30px] text-[#895AF6]" />,
-      title: "App Development",
-      description:
-        "Native and cross-platform mobile applications that engage users and drive business growth.",
-      lists: [
-        "iOS & Android",
-        "Cross-Platform",
-        "Cloud Integration",
-        "Push Notifications",
-      ],
-    },
+    // {
+    //   icon: <Smartphone className="w-[30px] h-[30px] text-[#895AF6]" />,
+    //   title: "App Development",
+    //   description:
+    //     "Native and cross-platform mobile applications that engage users and drive business growth.",
+    //   lists: [
+    //     "iOS & Android",
+    //     "Cross-Platform",
+    //     "Cloud Integration",
+    //     "Push Notifications",
+    //   ],
+    // },
     {
       icon: <Palette className="w-[30px] h-[30px] text-[#895AF6]" />,
       title: "UI/UX Design",
@@ -57,18 +57,18 @@ const ServicePage = () => {
         "Post-Production",
       ],
     },
-    {
-      icon: <TrendingUp className="w-[30px] h-[30px] text-[#895AF6]" />,
-      title: "Digital Marketing",
-      description:
-        "Data-driven marketing strategies to amplify your brand presence and drive measurable results.",
-      lists: [
-        "SEO & SEM",
-        "Social Media",
-        "Content Marketing",
-        "Analytics",
-      ],
-    },
+    // {
+    //   icon: <TrendingUp className="w-[30px] h-[30px] text-[#895AF6]" />,
+    //   title: "Digital Marketing",
+    //   description:
+    //     "Data-driven marketing strategies to amplify your brand presence and drive measurable results.",
+    //   lists: [
+    //     "SEO & SEM",
+    //     "Social Media",
+    //     "Content Marketing",
+    //     "Analytics",
+    //   ],
+    // },
   ];
 
   const devsteps = [
