@@ -16,6 +16,7 @@ const ContactPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
 
+  // ✅ Your SheetDB API endpoint
   const SHEET_URL = "https://sheetdb.io/api/v1/85gwysjf7z5xo";
 
   const handleChange = (e) => {
@@ -26,7 +27,22 @@ const ContactPage = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // ✅ Get correct IST Date & Time (human-readable)
     const now = new Date();
+    const istString = now.toLocaleString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      weekday: "short",
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+    });
+
+    const date_iso = now.toISOString(); // still store original UTC for reference
+
     const dataToSend = {
       name: formData.name,
       phonenumber: formData.phonenumber,
@@ -34,8 +50,8 @@ const ContactPage = () => {
       requiredservice: formData.requiredservice.join(", "),
       description: formData.description,
       expectedbudget: formData.expectedbudget,
-      date_iso: now.toISOString(),
-      date_local: now.toLocaleString(),
+      date_iso,
+      date_local: istString, // ✅ beautiful formatted IST time
     };
 
     try {
@@ -45,7 +61,6 @@ const ContactPage = () => {
         body: JSON.stringify({ data: [dataToSend] }),
       });
 
-      const result = await response.json();
       if (response.ok) {
         setAlert({
           show: true,
@@ -122,7 +137,7 @@ const ContactPage = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.8 }}
-          className="text-[12px] md:text-[15px] lg:text-[19px] md:[400px] lg:w-[670px] text-[#74747D]"
+          className="text-[12px] md:text-[15px] lg:text-[19px] lg:w-[670px] text-[#74747D]"
         >
           Have a project in mind? We'd love to hear from you. Send us a message
           and we'll respond as soon as possible.
@@ -149,90 +164,123 @@ const ContactPage = () => {
             Fill out the form below and we'll get back to you shortly.
           </p>
 
-          {[
-            { name: "name", placeholder: "Your name" },
-            { name: "phone number", placeholder: "Your phone number" },
-            { name: "email", placeholder: "Your.email@example.com", type: "email" },
-            { name: "requiredservice" },
-            { name: "description", placeholder: "Tell us about your project..." },
-            { name: "expected budget(USD)", placeholder: "Expected budget" },
-          ].map((field, index) => (
-            <motion.div
-              key={field.name}
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3 + index * 0.1 }}
-              className="flex flex-col gap-2"
-            >
-              <h4 className="font-medium text-[14px] capitalize">
-                {field.name} {field.name !== "description" && "*"}
-              </h4>
+          {/* Name */}
+          <div className="flex flex-col gap-2">
+            <h4 className="font-medium text-[14px]">Name *</h4>
+            <motion.input
+              whileFocus={{ scale: 1.03, borderColor: "#895AF6" }}
+              transition={{ type: "spring", stiffness: 200 }}
+              type="text"
+              name="name"
+              placeholder="Your name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              className="p-[10px] border-[2px] border-[#EEEEF0] hover:border-[#895AF6] w-full rounded-[12px] text-[14px] focus:outline-[#895AF6]"
+            />
+          </div>
 
-              {field.name === "requiredservice" ? (
-                <div className="flex flex-col gap-1">
-                  {["Web Development", "UI/UX", "Video Editing", "Digital Marketing"].map(
-                    (service) => (
-                      <label
-                        key={service}
-                        className="flex items-center gap-2 text-[14px]"
-                      >
-                        <input
-                          type="checkbox"
-                          name="requiredservice"
-                          value={service}
-                          checked={formData.requiredservice.includes(service)}
-                          onChange={(e) => {
-                            const value = e.target.value;
-                            setFormData((prev) => {
-                              if (prev.requiredservice.includes(value)) {
-                                return {
-                                  ...prev,
-                                  requiredservice: prev.requiredservice.filter(
-                                    (s) => s !== value
-                                  ),
-                                };
-                              } else {
-                                return {
-                                  ...prev,
-                                  requiredservice: [...prev.requiredservice, value],
-                                };
-                              }
-                            });
-                          }}
-                          className="accent-[#895AF6]"
-                        />
-                        {service}
-                      </label>
-                    )
-                  )}
-                </div>
-              ) : field.name !== "description" ? (
-                <motion.input
-                  whileFocus={{ scale: 1.03, borderColor: "#895AF6" }}
-                  transition={{ type: "spring", stiffness: 200 }}
-                  type={field.type || "text"}
-                  name={field.name}
-                  placeholder={field.placeholder}
-                  value={formData[field.name]}
-                  onChange={handleChange}
-                  required={field.name !== "description"}
-                  className="p-[7px] border-[2px] border-[#EEEEF0] hover:border-[#895AF6] w-full rounded-[12px] text-[14px] focus:outline-[#895AF6]"
-                />
-              ) : (
-                <motion.textarea
-                  whileFocus={{ scale: 1.03, borderColor: "#895AF6" }}
-                  transition={{ type: "spring", stiffness: 200 }}
-                  name={field.name}
-                  placeholder={field.placeholder}
-                  value={formData[field.name]}
-                  onChange={handleChange}
-                  className="p-[7px] border-[2px] border-[#EEEEF0] hover:border-[#895AF6] w-full rounded-[12px] text-[14px] focus:outline-[#895AF6] min-h-[70px] resize-y"
-                />
+          {/* Phone */}
+          <div className="flex flex-col gap-2">
+            <h4 className="font-medium text-[14px]">Phone Number *</h4>
+            <motion.input
+              whileFocus={{ scale: 1.03, borderColor: "#895AF6" }}
+              transition={{ type: "spring", stiffness: 200 }}
+              type="tel"
+              name="phonenumber"
+              placeholder="+91 98765 43210"
+              value={formData.phonenumber}
+              onChange={handleChange}
+              required
+              className="p-[10px] border-[2px] border-[#EEEEF0] hover:border-[#895AF6] w-full rounded-[12px] text-[14px] focus:outline-[#895AF6] tracking-wide"
+            />
+          </div>
+
+          {/* Email */}
+          <div className="flex flex-col gap-2">
+            <h4 className="font-medium text-[14px]">Email *</h4>
+            <motion.input
+              whileFocus={{ scale: 1.03, borderColor: "#895AF6" }}
+              transition={{ type: "spring", stiffness: 200 }}
+              type="email"
+              name="email"
+              placeholder="your.email@example.com"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="p-[10px] border-[2px] border-[#EEEEF0] hover:border-[#895AF6] w-full rounded-[12px] text-[14px] focus:outline-[#895AF6]"
+            />
+          </div>
+
+          {/* Required Service */}
+          <div className="flex flex-col gap-2">
+            <h4 className="font-medium text-[14px]">Required Service *</h4>
+            <div className="flex flex-col gap-1">
+              {["Web Development", "UI/UX", "Video Editing", "Digital Marketing"].map(
+                (service) => (
+                  <label key={service} className="flex items-center gap-2 text-[14px]">
+                    <input
+                      type="checkbox"
+                      name="requiredservice"
+                      value={service}
+                      checked={formData.requiredservice.includes(service)}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setFormData((prev) => {
+                          if (prev.requiredservice.includes(value)) {
+                            return {
+                              ...prev,
+                              requiredservice: prev.requiredservice.filter(
+                                (s) => s !== value
+                              ),
+                            };
+                          } else {
+                            return {
+                              ...prev,
+                              requiredservice: [...prev.requiredservice, value],
+                            };
+                          }
+                        });
+                      }}
+                      className="accent-[#895AF6]"
+                    />
+                    {service}
+                  </label>
+                )
               )}
-            </motion.div>
-          ))}
+            </div>
+          </div>
 
-          {/* SUBMIT BUTTON */}
+          {/* Description */}
+          <div className="flex flex-col gap-2">
+            <h4 className="font-medium text-[14px]">Description</h4>
+            <motion.textarea
+              whileFocus={{ scale: 1.03, borderColor: "#895AF6" }}
+              transition={{ type: "spring", stiffness: 200 }}
+              name="description"
+              placeholder="Tell us about your project..."
+              value={formData.description}
+              onChange={handleChange}
+              className="p-[10px] border-[2px] border-[#EEEEF0] hover:border-[#895AF6] w-full rounded-[12px] text-[14px] focus:outline-[#895AF6] min-h-[70px] resize-y"
+            />
+          </div>
+
+          {/* Budget */}
+          <div className="flex flex-col gap-2">
+            <h4 className="font-medium text-[14px]">Expected Budget</h4>
+            <motion.input
+              whileFocus={{ scale: 1.03, borderColor: "#895AF6" }}
+              transition={{ type: "spring", stiffness: 200 }}
+              type="text"
+              name="expectedbudget"
+              placeholder="Enter your budget"
+              value={formData.expectedbudget}
+              onChange={handleChange}
+              className="p-[10px] border-[2px] border-[#EEEEF0] hover:border-[#895AF6] w-full rounded-[12px] text-[14px] focus:outline-[#895AF6]"
+            />
+          </div>
+
+          {/* Submit Button */}
           <motion.button
             whileHover={!isSubmitting && { scale: 1.05 }}
             whileTap={!isSubmitting && { scale: 0.95 }}
