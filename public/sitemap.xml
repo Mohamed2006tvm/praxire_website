@@ -5,11 +5,11 @@
     <priority>1.00</priority>
   </url>
   <url>
-    <loc>https://praxire.com/about</loc>
+    <loc>https://praxire.com/ServicePage</loc>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://praxire.com/contact</loc>
+    <loc>https://praxire.com/ContactPage</loc>
     <priority>0.80</priority>
   </url>
 </urlset>
