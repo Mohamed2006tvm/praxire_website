@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Navbar from "./Navbar";
 import FooterPage from "./FooterPage";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 
 const ServicePage = () => {
   const services = [
@@ -96,11 +96,11 @@ const ServicePage = () => {
   return (
     <>
 
-      <Helmet>
+      {/* <Helmet>
         <title>Our Services - Praxire</title>
         <meta name="description" content="Explore Praxire's comprehensive digital services including web development, UI/UX design, and video editing. Tailored solutions to elevate your business." />
         <link rel="canonical" href="https://praxire.com/services" />
-      </Helmet>
+      </Helmet> */}
 
       <Navbar />
 

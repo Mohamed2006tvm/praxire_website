@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FooterPage from "./FooterPage";
 import Navbar from "./Navbar";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -98,11 +98,11 @@ const ContactPage = () => {
   return (
     <div className="overflow-hidden relative">
 
-      <Helmet>
+      {/* <Helmet>
         <title>Contact Us - Praxire</title>
         <meta name="description" content="Get in touch with Praxire for expert digital solutions. Whether you have a project in mind or need more information about our services, we're here to help!" />
         <link rel="canonical" href="https://praxire.com/contact" />
-      </Helmet>
+      </Helmet> */}
 
       <Navbar />
 
