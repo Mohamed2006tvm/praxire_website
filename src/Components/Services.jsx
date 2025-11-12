@@ -29,7 +29,7 @@ const Services = () => {
   };
 
   return (
-    <div className="bg-[#FBFBFC] flex flex-col items-center justify-center min-h-screen py-10">
+    <div className="bg-[#FBFBFC] flex flex-col items-center justify-center py-15">
       <motion.div
         className="flex flex-col text-center items-center gap-[10px]"
         initial={{ opacity: 0, y: -30 }}
