@@ -18,7 +18,7 @@ const ContactPage = () => {
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
 
   // ✅ Your SheetDB API endpoint
-  const SHEET_URL = "https://sheetdb.io/api/v1/85gwysjf7z5xo";
+  const SHEET_URL = import.meta.env.VITE_SHEET_URL;
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
