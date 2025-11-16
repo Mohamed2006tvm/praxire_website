@@ -33,8 +33,8 @@ const FooterPage = () => {
             <h3 className="font-medium pb-[20px]">Quick Links</h3>
             <ul className="flex flex-col gap-[10px] text-[#71717A] text-[14px]">
               <Link to="/" className="hover:text-[#895AF6] transition-colors duration-300">Home</Link>
-              <Link to="/Service" className="hover:text-[#895AF6] transition-colors duration-300">Services</Link>
-              <Link to="/Contact" className="hover:text-[#895AF6] transition-colors duration-300">Contact</Link>
+              <Link to="/service" className="hover:text-[#895AF6] transition-colors duration-300">Services</Link>
+              <Link to="/contact" className="hover:text-[#895AF6] transition-colors duration-300">Contact</Link>
             </ul>
           </motion.div>
 

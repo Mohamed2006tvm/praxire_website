@@ -5,8 +5,7 @@ import HomePage from "./Components/HomePage";
 import ServicePage from "./Components/ServicePage";
 import ContactPage from "./Components/ContactPage";
 import Preloader from "./Components/Preloader";
-// import { Helmet } from "react-helmet-async";
-
+import ScrollToTop from "./Components/ScrollToTop";
 const App = () => {
   const [loading, setLoading] = useState(true);
 
@@ -18,19 +17,15 @@ const App = () => {
 
   return (
     <div>
-      {/* <Helmet>
-        <title>Praxire</title>
-        <meta name="description" content="Praxire Application" />
-      </Helmet> */}
-
       {loading ? (
         <Preloader />
       ) : (
         <Router>
+          <ScrollToTop />   {/* <-- THIS FIXES THE SCROLL ISSUE */}
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/Service" element={<ServicePage />} />
-            <Route path="/Contact" element={<ContactPage />} />
+            <Route path="/service" element={<ServicePage />} />
+            <Route path="/contact" element={<ContactPage />} />
           </Routes>
         </Router>
       )}

@@ -58,7 +58,7 @@ const Services = () => {
       </motion.div>
 
       <div>
-        <Link to="/Service">
+        <Link to="/service">
           <motion.h2
             className="inline-flex justify-center items-center py-3 mx-auto gap-[12px] bg-[#fff] px-[30px] border-[2px] border-[#E4E4E7] text-[14px] rounded-[12px] hover:bg-[#895AF6] hover:text-[#fff] transition-all duration-300 group cursor-pointer"
             whileHover={{ scale: 1.05, boxShadow: "0px 8px 25px rgba(137,90,246,0.25)" }}

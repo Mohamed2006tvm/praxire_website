@@ -50,6 +50,8 @@ const Navbar = () => {
     "text-[#5E5E64] font-medium hover:text-[#8F62F6] transition-all duration-200";
 
   return (
+    
+
     <header className="sticky top-0 z-50 bg-[#FBFBFC] shadow-sm">
       <div className="max-w-[1400px] w-[90%] mx-auto py-4 flex justify-between items-center relative">
         {/* 🌟 Brand Text (kept original animation + glow) */}
@@ -117,7 +119,7 @@ const Navbar = () => {
             Home
           </NavLink>
           <NavLink
-            to="/Service"
+            to="/service"
             className={({ isActive }) =>
               isActive ? activeLinkClasses : defaultLinkClasses
             }
@@ -125,7 +127,7 @@ const Navbar = () => {
             Services
           </NavLink>
           <NavLink
-            to="/Contact"
+            to="/contact"
             className={({ isActive }) =>
               isActive ? activeLinkClasses : defaultLinkClasses
             }
@@ -133,7 +135,7 @@ const Navbar = () => {
             Contact
           </NavLink>
           <Link
-            to="/Contact"
+            to="/contact"
             className="bg-[#895AF6] text-white px-5 py-2 rounded-xl text-base font-medium hover:shadow-lg hover:bg-[#7A4BC0] transition-all duration-300"
           >
             Get Started
