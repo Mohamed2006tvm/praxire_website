@@ -21,10 +21,14 @@ const ServicePage = () => {
       description:
         "Custom websites and web applications built with cutting-edge technologies for optimal performance and user experience.",
       lists: [
-        "Responsive Design",
+        "Mobile-First Responsive Design",
         "SEO Optimized",
-        "Fast Loading",
-        "Secure & Scalable",
+        "Speed & Core Web Vitals Optimization",
+        "Secure & Scalable Architecture",
+        "Custom UI Components & Animations",
+        "CMS & Admin Panel Integration",
+        "API Development & Integrations",
+        "Deployment & Maintenance Support",
       ],
     },
     // {
@@ -44,7 +48,16 @@ const ServicePage = () => {
       title: "UI/UX Design",
       description:
         "Beautiful, intuitive interfaces designed with your users in mind, combining aesthetics with functionality.",
-      lists: ["User Research", "Wireframing", "Prototyping", "Design Systems"],
+      lists: [
+        "User Research & Persona Mapping", 
+        "Low-Fidelity & High-Fidelity Wireframes",
+        "Interactive Prototypes", 
+        "Consistent Branding Through Design Systems",
+        "Usability Testing & Feedback Integration",
+        "Responsive Design for All Devices",
+        "User Journey Mapping",
+        "Refinement & Final Delivery"
+      ],
     },
     {
       icon: <Video className="w-[30px] h-[30px] text-[#895AF6]" />,
@@ -52,10 +65,14 @@ const ServicePage = () => {
       description:
         "Professional video editing services to bring your vision to life with stunning visuals and seamless storytelling.",
       lists: [
-        "Color Grading",
-        "Motion Graphics",
-        "Sound Design",
-        "Post-Production",
+        "Color Grading & Visual Enhancement",
+        "Motion Graphics & Text Animations",
+        "Reels, Shorts & Social Media Edits",
+        "Promo & Branding Videos",
+        "Sound Design & Noise Reduction",
+        "Cutting & Transitions",
+        "Initial Review & Revisions",
+        "Final Rendering & Multiple Format Delivery",
       ],
     },
     // {
@@ -95,11 +112,53 @@ const ServicePage = () => {
 
   return (
     <>
-
       <Helmet>
-        <title>Our Services - Praxire</title>
-        <meta name="description" content="Explore Praxire's comprehensive digital services including web development, UI/UX design, and video editing. Tailored solutions to elevate your business." />
+        {/* Primary Meta Tags */}
+        <title>
+          Services – Web Development, UI/UX Design & Video Editing | Praxire
+        </title>
+        <meta
+          name="description"
+          content="Explore Praxire's professional services including custom web development, UI/UX design, and video editing. High-quality digital solutions crafted to grow your business and elevate your brand."
+        />
         <link rel="canonical" href="https://praxire.com/services" />
+
+        {/* SEO Keywords */}
+        <meta
+          name="keywords"
+          content="Praxire services, web development, UI UX design, video editing, website design agency, digital services, frontend development, branding, business solutions"
+        />
+
+        {/* Open Graph / Social Share */}
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:title"
+          content="Praxire Services – Web Development, UI/UX Design & Video Editing"
+        />
+        <meta
+          property="og:description"
+          content="Praxire offers expert digital services including premium web development, modern UI/UX design, and professional video editing to help your business grow."
+        />
+        <meta property="og:url" content="https://praxire.com/services" />
+        <meta
+          property="og:image"
+          content="https://praxire.com/og-services.jpg"
+        />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Praxire Services – Digital Solutions for Your Business"
+        />
+        <meta
+          name="twitter:description"
+          content="Custom websites, UI/UX design, and high-quality video editing—tailored digital solutions from Praxire."
+        />
+        <meta
+          name="twitter:image"
+          content="https://praxire.com/og-services.jpg"
+        />
       </Helmet>
 
       <Navbar />
@@ -145,14 +204,14 @@ const ServicePage = () => {
                   {service.icon}
                 </div>
 
-                <h2 className="text-[22px] font-semibold mt-4 pt-[8px]">
+                <h1 className="text-[22px] font-semibold mt-4 pt-[8px]">
                   {service.title}
-                </h2>
-                <p className="text-[#74747D] mt-2">{service.description}</p>
+                </h1>
+                <h2 className="text-[#74747D] mt-2">{service.description}</h2>
 
                 <ul className="flex flex-col gap-[6px] pt-[12px] list-disc marker:text-[#895AF6] list-inside mt-4 text-[14px] text-[#869BB6]">
                   {service.lists.map((item, i) => (
-                    <li key={i}>{item}</li>
+                    <h3><li key={i}>{item}</li></h3>
                   ))}
                 </ul>
 
@@ -183,8 +242,9 @@ const ServicePage = () => {
             Our Agile Approach
           </h1>
           <p className="text-[12px] md:text-[18px] text-[#74747D] pt-[10px] md:pt-[18px] md:w-[680px]">
-            We follow an agile methodology to ensure rapid delivery, flexibility,
-            and continuous improvement throughout your project lifecycle.
+            We follow an agile methodology to ensure rapid delivery,
+            flexibility, and continuous improvement throughout your project
+            lifecycle.
           </p>
         </motion.div>
 
@@ -216,7 +276,8 @@ const ServicePage = () => {
           Ready to Get Started?
         </h1>
         <p className="md:text-[18px] text-[12px] text-[#74747D]">
-          Let's discuss how we can help bring your vision to life with our expert services.
+          Let's discuss how we can help bring your vision to life with our
+          expert services.
         </p>
         <Link to="/Contact">
           <button className="bg-[#895AF6] text-white py-3 px-8 rounded-md text-[14px] font-medium hover:shadow-2xl transition-all duration-300 hover:bg-[#7A4BC0]">

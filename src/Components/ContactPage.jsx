@@ -98,10 +98,40 @@ const ContactPage = () => {
   return (
     <div className="overflow-hidden relative">
     <Helmet>
-        <title>Contact Us - Praxire</title>
-        <meta name="description" content="Get in touch with Praxire for expert digital solutions. Whether you have a project in mind or need more information about our services, we're here to help!" />
-        <link rel="canonical" href="https://praxire.com/contact" />
-      </Helmet>
+  {/* Primary Meta Tags */}
+  <title>Contact Praxire – Get in Touch for Web Development & Digital Solutions</title>
+  <meta 
+    name="description" 
+    content="Need a website, UI/UX design, or digital solutions? Contact Praxire today. Our team is ready to help your business grow with professional and affordable digital services."
+  />
+  <link rel="canonical" href="https://praxire.com/contact" />
+
+  {/* SEO Keywords */}
+  <meta 
+    name="keywords" 
+    content="Praxire contact, contact praxire, website development contact, UI UX design contact, digital solutions support, business enquiry, get in touch Praxire"
+  />
+
+  {/* Open Graph / Social Share */}
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Contact Praxire – Let's Build Your Next Digital Project" />
+  <meta 
+    property="og:description" 
+    content="Reach out to Praxire for expert web development, UI/UX, and digital services. We're here to bring your ideas to life."
+  />
+  <meta property="og:url" content="https://praxire.com/contact" />
+  <meta property="og:image" content="https://praxire.com/og-contact.jpg" />
+
+  {/* Twitter Card */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Contact Praxire – Web Development & Digital Services" />
+  <meta 
+    name="twitter:description" 
+    content="Have a project in mind? Contact Praxire for top-notch digital services designed to grow your business."
+  />
+  <meta name="twitter:image" content="https://praxire.com/og-contact.jpg" />
+</Helmet>
+
 
       <Navbar />
 
