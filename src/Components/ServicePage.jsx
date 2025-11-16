@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Navbar from "./Navbar";
 import FooterPage from "./FooterPage";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 
 const ServicePage = () => {
   const services = [
@@ -112,7 +112,7 @@ const ServicePage = () => {
 
   return (
     <>
-       <Helmet>
+       {/* <Helmet>
         <title>
           Services – Web Development, UI/UX Design & Video Editing | Praxire
         </title>
@@ -155,7 +155,7 @@ const ServicePage = () => {
           name="twitter:image"
           content="https://praxire.com/og-services.jpg"
         />
-      </Helmet> 
+      </Helmet>  */}
 
       <Navbar />
 

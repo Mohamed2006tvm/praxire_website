@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FooterPage from "./FooterPage";
 import Navbar from "./Navbar";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -97,7 +97,7 @@ const ContactPage = () => {
 
   return (
     <div className="overflow-hidden relative">
-     <Helmet>
+     {/* <Helmet>
   <title>Contact Praxire – Get in Touch for Web Development & Digital Solutions</title>
   <meta 
     name="description" 
@@ -126,7 +126,7 @@ const ContactPage = () => {
     content="Have a project in mind? Contact Praxire for top-notch digital services designed to grow your business."
   />
   <meta name="twitter:image" content="https://praxire.com/og-contact.jpg" />
-</Helmet> 
+</Helmet>  */}
 
 
       <Navbar />

@@ -6,13 +6,13 @@ import MainPage from './MainPage'
 import WhatSet from './WhatSet'
 import Services from './Services'
 import ReadyPage from './ReadyPage'
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 
 const HomePage = () => {
   return (
     <div>
 
-       <Helmet>
+       {/* <Helmet>
         <title>Praxire – Professional Web Development & Digital Solutions for Growing Businesses</title>
         <meta 
           name="description" 
@@ -41,7 +41,7 @@ const HomePage = () => {
           content="Modern websites, branding, and complete digital solutions to help your business grow online."
         />
         <meta name="twitter:image" content="https://praxire.com/og-image.jpg" />
-      </Helmet>
+      </Helmet> */}
 
       <Navbar />
       <MainPage />
