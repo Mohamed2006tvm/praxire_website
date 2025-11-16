@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Navbar from "./Navbar";
 import FooterPage from "./FooterPage";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 
 const ServicePage = () => {
   const services = [
@@ -112,8 +112,7 @@ const ServicePage = () => {
 
   return (
     <>
-      <Helmet>
-        {/* Primary Meta Tags */}
+      {/* <Helmet>
         <title>
           Services – Web Development, UI/UX Design & Video Editing | Praxire
         </title>
@@ -123,13 +122,11 @@ const ServicePage = () => {
         />
         <link rel="canonical" href="https://praxire.com/services" />
 
-        {/* SEO Keywords */}
         <meta
           name="keywords"
           content="Praxire services, web development, UI UX design, video editing, website design agency, digital services, frontend development, branding, business solutions"
         />
 
-        {/* Open Graph / Social Share */}
         <meta property="og:type" content="website" />
         <meta
           property="og:title"
@@ -145,7 +142,6 @@ const ServicePage = () => {
           content="https://praxire.com/og-services.jpg"
         />
 
-        {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
@@ -159,7 +155,7 @@ const ServicePage = () => {
           name="twitter:image"
           content="https://praxire.com/og-services.jpg"
         />
-      </Helmet>
+      </Helmet> */}
 
       <Navbar />
 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FooterPage from "./FooterPage";
 import Navbar from "./Navbar";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -97,8 +97,7 @@ const ContactPage = () => {
 
   return (
     <div className="overflow-hidden relative">
-    <Helmet>
-  {/* Primary Meta Tags */}
+    {/* <Helmet>
   <title>Contact Praxire – Get in Touch for Web Development & Digital Solutions</title>
   <meta 
     name="description" 
@@ -106,13 +105,11 @@ const ContactPage = () => {
   />
   <link rel="canonical" href="https://praxire.com/contact" />
 
-  {/* SEO Keywords */}
   <meta 
     name="keywords" 
     content="Praxire contact, contact praxire, website development contact, UI UX design contact, digital solutions support, business enquiry, get in touch Praxire"
   />
 
-  {/* Open Graph / Social Share */}
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Contact Praxire – Let's Build Your Next Digital Project" />
   <meta 
@@ -122,7 +119,6 @@ const ContactPage = () => {
   <meta property="og:url" content="https://praxire.com/contact" />
   <meta property="og:image" content="https://praxire.com/og-contact.jpg" />
 
-  {/* Twitter Card */}
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Contact Praxire – Web Development & Digital Services" />
   <meta 
@@ -130,7 +126,7 @@ const ContactPage = () => {
     content="Have a project in mind? Contact Praxire for top-notch digital services designed to grow your business."
   />
   <meta name="twitter:image" content="https://praxire.com/og-contact.jpg" />
-</Helmet>
+</Helmet> */}
 
 
       <Navbar />
