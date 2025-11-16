@@ -2,15 +2,15 @@ User-agent: *
 Allow: /
 Sitemap: https://praxire.com/sitemap.xml
 
-# Block unnecessary files (optional but recommended)
+# Block unnecessary files
 Disallow: /node_modules/
-Disallow: /assets/*.map
+Disallow: /assets/*.map$
 Disallow: /*.json$
 
 # Allow important assets
-Allow: *.css
-Allow: *.js
-Allow: *.jpg
-Allow: *.png
-Allow: *.webp
-Allow: *.svg
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.jpg$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /*.svg$
