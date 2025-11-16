@@ -19,7 +19,7 @@ const ServicePage = () => {
       icon: <CodeIcon className="w-[30px] h-[30px] text-[#895AF6]" />,
       title: "Web Development",
       description:
-        "Custom Web Development Services Designed to Grow Your Business",
+        "Custom websites and web applications built with cutting-edge technologies for optimal performance and user experience.",
       lists: [
         "Mobile-First Responsive Design",
         "SEO Optimized",
