@@ -14,11 +14,23 @@ const ContactPage = () => {
     expectedbudget: "",
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [alert, setAlert] = useState({ show: false, type: "", message: "" });
+  const [alertData, setAlertData] = useState({
+    show: false,
+    type: "success",
+    message: "",
+  });
 
-  // ✅ Your SheetDB API endpoint
-  const SHEET_URL = import.meta.env.VITE_SHEET_URL;
+  const [isSubmitting, setIsSubmitting] = useState(false); // ⬅️ NEW
+
+  const showAlert = (type, message) => {
+    setAlertData({ show: true, type, message });
+
+    setTimeout(() => {
+      setAlertData({ show: false, type, message: "" });
+    }, 3000);
+  };
+
+  const SHEET_URL = "https://sheetdb.io/api/v1/85gwysjf7z5xo";
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -26,24 +38,11 @@ const ContactPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
 
-    // ✅ Get correct IST Date & Time (human-readable)
+    if (isSubmitting) return; // prevent multi-click
+    setIsSubmitting(true); // disable button
+
     const now = new Date();
-    const istString = now.toLocaleString("en-IN", {
-      timeZone: "Asia/Kolkata",
-      weekday: "short",
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: true,
-    });
-
-    const date_iso = now.toISOString(); // still store original UTC for reference
-
     const dataToSend = {
       name: formData.name,
       phonenumber: formData.phonenumber,
@@ -51,8 +50,8 @@ const ContactPage = () => {
       requiredservice: formData.requiredservice.join(", "),
       description: formData.description,
       expectedbudget: formData.expectedbudget,
-      date_iso,
-      date_local: istString, // ✅ beautiful formatted IST time
+      date_iso: now.toISOString(),
+      date_local: now.toLocaleString(),
     };
 
     try {
@@ -62,12 +61,10 @@ const ContactPage = () => {
         body: JSON.stringify({ data: [dataToSend] }),
       });
 
+      await response.json();
+
       if (response.ok) {
-        setAlert({
-          show: true,
-          type: "success",
-          message: "✅ Message sent successfully!",
-        });
+        showAlert("success", "Message sent successfully!");
         setFormData({
           name: "",
           phonenumber: "",
@@ -77,80 +74,90 @@ const ContactPage = () => {
           expectedbudget: "",
         });
       } else {
-        setAlert({
-          show: true,
-          type: "error",
-          message: "❌ Failed to send message. Please try again.",
-        });
+        showAlert("error", "Failed to send message!");
       }
     } catch (err) {
-      setAlert({
-        show: true,
-        type: "error",
-        message: "⚠️ Network error — please check your connection.",
-      });
-    } finally {
-      setIsSubmitting(false);
-      setTimeout(() => setAlert({ show: false, type: "", message: "" }), 4000);
+      console.error(err);
+      showAlert("error", "Network issue. Try again!");
     }
+
+    setIsSubmitting(false); // enable again
   };
 
   return (
     <div className="overflow-hidden relative">
-     <Helmet>
-  <title>Contact Praxire – Get in Touch for Web Development & Digital Solutions</title>
-  <meta 
-    name="description" 
-    content="Need a website, UI/UX design, or digital solutions? Contact Praxire today. Our team is ready to help your business grow with professional and affordable digital services."
-  />
-  <link rel="canonical" href="https://praxire.com/contact" />
+      <Helmet>
+        <title>Contact Praxire | Hire Us for Web Development, UI/UX, Marketing</title>
+        <meta
+          name="description"
+          content="Contact Praxire for website development, UI/UX design, digital marketing, and video editing. Let's bring your ideas to life."
+        />
+        <meta
+          name="keywords"
+          content="Praxire contact, hire Praxire, web development agency, UI UX agency, video editing services, digital marketing agency"
+        />
+        <link rel="canonical" href="https://www.praxire.com/contact" />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:title" content="Contact Praxire" />
+        <meta
+          property="og:description"
+          content="Have a project in mind? Contact Praxire for premium development & creative services."
+        />
+        <meta property="og:url" content="https://www.praxire.com/contact" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Praxire" />
+        <meta property="og:image" content="https://www.praxire.com/seo/contact-banner.png" />
 
-  <meta 
-    name="keywords" 
-    content="Praxire contact, contact praxire, website development contact, UI UX design contact, digital solutions support, business enquiry, get in touch Praxire"
-  />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Contact Praxire" />
+        <meta
+          name="twitter:description"
+          content="Get in touch with Praxire for web & creative services."
+        />
+        <meta name="twitter:image" content="https://www.praxire.com/seo/contact-banner.png" />
 
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Contact Praxire – Let's Build Your Next Digital Project" />
-  <meta 
-    property="og:description" 
-    content="Reach out to Praxire for expert web development, UI/UX, and digital services. We're here to bring your ideas to life."
-  />
-  <meta property="og:url" content="https://praxire.com/contact" />
-  <meta property="og:image" content="https://praxire.com/og-contact.jpg" />
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Contact Praxire – Web Development & Digital Services" />
-  <meta 
-    name="twitter:description" 
-    content="Have a project in mind? Contact Praxire for top-notch digital services designed to grow your business."
-  />
-  <meta name="twitter:image" content="https://praxire.com/og-contact.jpg" />
-</Helmet> 
-
+        <script type="application/ld+json">
+          {`
+          {
+            "@context": "https://schema.org",
+            "@type": "ContactPage",
+            "name": "Contact Praxire",
+            "description": "Get in touch with Praxire for professional web development, UI/UX design, and digital marketing services.",
+            "url": "https://www.praxire.com/contact",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Praxire",
+              "url": "https://www.praxire.com",
+              "logo": "https://www.praxire.com/logo.png",
+              "founders": [
+                { "@type": "Person", "name": "Vishal G" },
+                { "@type": "Person", "name": "Mohamed" }
+              ]
+            }
+          }
+        `}
+        </script>
+      </Helmet>
 
       <Navbar />
 
-      {/* ALERT POPUP */}
+      {/* ALERT */}
       <AnimatePresence>
-        {alert.show && (
+        {alertData.show && (
           <motion.div
-            initial={{ opacity: 0, y: -50, scale: 0.8 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -40, scale: 0.9 }}
-            transition={{ duration: 0.4 }}
-            className={`fixed top-5 left-1/2 -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg z-[9999] text-white text-sm font-medium ${
-              alert.type === "success"
-                ? "bg-gradient-to-r from-green-500 to-emerald-600"
-                : "bg-gradient-to-r from-red-500 to-pink-600"
-            }`}
+            initial={{ y: -80, opacity: 0, scale: 0.8 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            exit={{ y: -80, opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className={`fixed top-5 left-1/2 z-[9999] -translate-x-1/2 px-6 py-3 rounded-lg shadow-xl text-white font-medium 
+              ${alertData.type === "success" ? "bg-[#7A4BE7]" : "bg-red-500"}`}
           >
-            {alert.message}
+            {alertData.message}
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* HERO SECTION */}
+      {/* HERO */}
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -170,14 +177,13 @@ const ContactPage = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.8 }}
-          className="text-[12px] md:text-[15px] lg:text-[19px] lg:w-[670px] text-[#74747D]"
+          className="text-[12px] md:text-[15px] lg:text-[19px] md:[400px] lg:w-[670px] text-[#74747D]"
         >
-          Have a project in mind? We'd love to hear from you. Send us a message
-          and we'll respond as soon as possible.
+          Have a project in mind? We'd love to hear from you.
         </motion.p>
       </motion.div>
 
-      {/* FORM SECTION */}
+      {/* FORM */}
       <motion.div
         initial={{ opacity: 0, y: 100, rotateX: 15 }}
         whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
@@ -190,155 +196,124 @@ const ContactPage = () => {
           transition={{ type: "spring", stiffness: 200 }}
           className="border-[2px] p-[20px] border-[#E6E6E6] rounded-[10px] gap-[20px] flex flex-col lg:w-[500px] shadow-xl bg-white backdrop-blur-sm"
         >
-          <h1 className="text-[23px] font-semibold text-[#333]">
-            Send us a Message
-          </h1>
-          <p className="text-[#898991] text-[12px] md:text-[14px]">
-            Fill out the form below and we'll get back to you shortly.
-          </p>
+          {/* TITLE */}
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <h1 className="text-[23px] font-semibold text-[#333]">Send us a Message</h1>
+            <p className="text-[#898991] text-[12px] md:text-[14px]">Fill out the form below.</p>
+          </motion.div>
 
-          {/* Name */}
-          <div className="flex flex-col gap-2">
-            <h4 className="font-medium text-[14px]">Name *</h4>
-            <motion.input
-              whileFocus={{ scale: 1.03, borderColor: "#895AF6" }}
-              transition={{ type: "spring", stiffness: 200 }}
-              type="text"
-              name="name"
-              placeholder="Your name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="p-[10px] border-[2px] border-[#EEEEF0] hover:border-[#895AF6] w-full rounded-[12px] text-[14px] focus:outline-[#895AF6]"
-            />
-          </div>
+          {/* ALL INPUTS SAME EXACTLY AS YOUR CODE */}
+          {[
+            { name: "name", placeholder: "Your name" },
+            { name: "phonenumber", placeholder: "Your phone number" },
+            { name: "email", placeholder: "Your.email@example.com", type: "email" },
+            { name: "requiredservice" },
+            { name: "description", placeholder: "Tell us about your project..." },
+            { name: "expectedbudget", placeholder: "Expected budget" },
+          ].map((field, index) => (
+            <motion.div
+              key={field.name}
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 + index * 0.1 }}
+              className="flex flex-col gap-2"
+            >
+              <h4 className="font-medium text-[14px] capitalize">
+                {field.name} {field.name !== "description" && "*"}
+              </h4>
 
-          {/* Phone */}
-          <div className="flex flex-col gap-2">
-            <h4 className="font-medium text-[14px]">Phone Number *</h4>
-            <motion.input
-              whileFocus={{ scale: 1.03, borderColor: "#895AF6" }}
-              transition={{ type: "spring", stiffness: 200 }}
-              type="tel"
-              name="phonenumber"
-              placeholder="+91 98765 43210"
-              value={formData.phonenumber}
-              onChange={handleChange}
-              required
-              className="p-[10px] border-[2px] border-[#EEEEF0] hover:border-[#895AF6] w-full rounded-[12px] text-[14px] focus:outline-[#895AF6] tracking-wide"
-            />
-          </div>
-          
-          {/* Email */}
-          <div className="flex flex-col gap-2">
-            <h4 className="font-medium text-[14px]">Email *</h4>
-            <motion.input
-              whileFocus={{ scale: 1.03, borderColor: "#895AF6" }}
-              transition={{ type: "spring", stiffness: 200 }}
-              type="email"
-              name="email"
-              placeholder="your.email@example.com"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="p-[10px] border-[2px] border-[#EEEEF0] hover:border-[#895AF6] w-full rounded-[12px] text-[14px] focus:outline-[#895AF6]"
-            />
-          </div>
-
-          {/* Required Service */}
-          <div className="flex flex-col gap-2">
-            <h4 className="font-medium text-[14px]">Required Service *</h4>
-            <div className="flex flex-col gap-1">
-              {["Web Development", "UI/UX", "Video Editing", "Digital Marketing"].map(
-                (service) => (
-                  <label key={service} className="flex items-center gap-2 text-[14px]">
-                    <input
-                      type="checkbox"
-                      name="requiredservice"
-                      value={service}
-                      checked={formData.requiredservice.includes(service)}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        setFormData((prev) => {
-                          if (prev.requiredservice.includes(value)) {
-                            return {
-                              ...prev,
-                              requiredservice: prev.requiredservice.filter(
-                                (s) => s !== value
-                              ),
-                            };
-                          } else {
-                            return {
-                              ...prev,
-                              requiredservice: [...prev.requiredservice, value],
-                            };
-                          }
-                        });
-                      }}
-                      className="accent-[#895AF6]"
-                    />
-                    {service}
-                  </label>
-                )
+              {field.name === "requiredservice" ? (
+                <div className="flex flex-col gap-1">
+                  {["Web Development", "UI/UX", "Video Editing", "Digital Marketing"].map(
+                    (service) => (
+                      <label key={service} className="flex items-center gap-2 text-[14px]">
+                        <input
+                          type="checkbox"
+                          name="requiredservice"
+                          value={service}
+                          checked={formData.requiredservice.includes(service)}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            setFormData((prev) =>
+                              prev.requiredservice.includes(value)
+                                ? {
+                                  ...prev,
+                                  requiredservice: prev.requiredservice.filter(
+                                    (s) => s !== value
+                                  ),
+                                }
+                                : {
+                                  ...prev,
+                                  requiredservice: [...prev.requiredservice, value],
+                                }
+                            );
+                          }}
+                          className="accent-[#895AF6]"
+                        />
+                        {service}
+                      </label>
+                    )
+                  )}
+                </div>
+              ) : field.name !== "description" ? (
+                <motion.input
+                  whileFocus={{ scale: 1.03, borderColor: "#895AF6" }}
+                  transition={{ type: "spring", stiffness: 200 }}
+                  type={field.type || "text"}
+                  name={field.name}
+                  placeholder={field.placeholder}
+                  value={formData[field.name]}
+                  onChange={handleChange}
+                  required={field.name !== "description"}
+                  className="p-[7px] border-[2px] border-[#EEEEF0] hover:border-[#895AF6] w-full rounded-[12px] text-[14px] focus:outline-[#895AF6]"
+                />
+              ) : (
+                <motion.textarea
+                  whileFocus={{ scale: 1.03, borderColor: "#895AF6" }}
+                  transition={{ type: "spring", stiffness: 200 }}
+                  name={field.name}
+                  placeholder={field.placeholder}
+                  value={formData[field.name]}
+                  onChange={handleChange}
+                  className="p-[7px] border-[2px] border-[#EEEEF0] hover:border-[#895AF6] w-full rounded-[12px] text-[14px] focus:outline-[#895AF6] min-h-[70px] resize-y"
+                />
               )}
-            </div>
-          </div>
+            </motion.div>
+          ))}
 
-          {/* Description */}
-          <div className="flex flex-col gap-2">
-            <h4 className="font-medium text-[14px]">Description</h4>
-            <motion.textarea
-              whileFocus={{ scale: 1.03, borderColor: "#895AF6" }}
-              transition={{ type: "spring", stiffness: 200 }}
-              name="description"
-              placeholder="Tell us about your project..."
-              value={formData.description}
-              onChange={handleChange}
-              className="p-[10px] border-[2px] border-[#EEEEF0] hover:border-[#895AF6] w-full rounded-[12px] text-[14px] focus:outline-[#895AF6] min-h-[70px] resize-y"
-            />
-          </div>
-
-          {/* Budget */}
-          <div className="flex flex-col gap-2">
-            <h4 className="font-medium text-[14px]">Expected Budget</h4>
-            <motion.input
-              whileFocus={{ scale: 1.03, borderColor: "#895AF6" }}
-              transition={{ type: "spring", stiffness: 200 }}
-              type="text"
-              name="expectedbudget"
-              placeholder="Enter your budget"
-              value={formData.expectedbudget}
-              onChange={handleChange}
-              className="p-[10px] border-[2px] border-[#EEEEF0] hover:border-[#895AF6] w-full rounded-[12px] text-[14px] focus:outline-[#895AF6]"
-            />
-          </div>
-
-          {/* Submit Button */}
+          {/* UPDATED BUTTON */}
           <motion.button
-            whileHover={!isSubmitting && { scale: 1.05 }}
-            whileTap={!isSubmitting && { scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            type="submit"
             disabled={isSubmitting}
-            className={`w-full py-2 rounded-[8px] text-[16px] font-medium text-white duration-300 ${
+            whileHover={
+              !isSubmitting
+                ? {
+                  scale: 1.02,
+                  backgroundColor: "#6e42c1",
+                  boxShadow: "0px 4px 15px rgba(137, 90, 246, 0.4)",
+                  transition: { duration: 0.12, ease: "linear" } // 🔥 Faster
+                }
+                : {}
+            }
+            whileTap={!isSubmitting ? { scale: 0.95 } : {}}
+            animate={
               isSubmitting
-                ? "bg-gradient-to-r from-[#C1A3FF] to-[#A67CFF] cursor-not-allowed"
-                : "bg-[#895AF6] hover:bg-[#6e42c1]"
-            }`}
+                ? { scale: [1, 1.05, 1], opacity: [1, 0.7, 1] }
+                : {}
+            }
+            transition={{ repeat: isSubmitting ? Infinity : 0, duration: 0.8 }}
+            type="submit"
+            className="bg-[#895AF6] w-full py-2 rounded-[8px] text-[16px] font-medium text-white duration-300 disabled:bg-[#bfa2fb] disabled:cursor-not-allowed flex items-center justify-center"
           >
             {isSubmitting ? (
               <motion.div
-                className="flex items-center justify-center gap-2"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-              >
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                  className="w-5 h-5 border-[3px] border-t-transparent border-white rounded-full"
-                />
-                <span>Sending...</span>
-              </motion.div>
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, duration: 0.7, ease: "linear" }}
+                className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+              ></motion.div>
             ) : (
               "Send Message"
             )}
