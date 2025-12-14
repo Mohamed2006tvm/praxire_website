@@ -119,6 +119,14 @@ const Navbar = () => {
             Home
           </NavLink>
           <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              isActive ? activeLinkClasses : defaultLinkClasses
+            }
+          >
+              About
+          </NavLink>
+          <NavLink
             to="/service"
             className={({ isActive }) =>
               isActive ? activeLinkClasses : defaultLinkClasses

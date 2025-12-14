@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
+import Navbar from "./Navbar";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 24 },
@@ -16,16 +17,19 @@ const staggerParent = {
   visible: { transition: { staggerChildren: 0.08 } },
 };
 
-// COUNT UP COMPONENT
+// ✅ FIXED COUNT UP COMPONENT
 function CountUp({ end, duration = 1800 }) {
   const [value, setValue] = useState(0);
   const ref = useRef(null);
   const hasAnimated = useRef(false);
 
   useEffect(() => {
+    if (!ref.current) return; // IMPORTANT FIX TO AVOID ERRORS
+
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
+
         if (entry.isIntersecting && !hasAnimated.current) {
           hasAnimated.current = true;
 
@@ -34,8 +38,9 @@ function CountUp({ end, duration = 1800 }) {
 
           const counter = () => {
             start += increment;
+
             if (start < end) {
-              setValue(Math.floor(start));
+              setValue(Math.round(start * 10) / 10);
               requestAnimationFrame(counter);
             } else {
               setValue(end);
@@ -49,6 +54,7 @@ function CountUp({ end, duration = 1800 }) {
     );
 
     observer.observe(ref.current);
+
     return () => observer.disconnect();
   }, [end, duration]);
 
@@ -57,7 +63,10 @@ function CountUp({ end, duration = 1800 }) {
 
 export default function AboutPage() {
   return (
+    
     <div className="min-h-screen bg-gradient-to-b from-white via-purple-50 to-white text-slate-900">
+      
+
       <Helmet>
         <title>About — Praxire</title>
         <meta
@@ -65,6 +74,7 @@ export default function AboutPage() {
           content="Praxire — software-first product studio. Founders: Vishal & Mohamed. We build delightful web & mobile experiences."
         />
       </Helmet>
+      <Navbar/>
 
       {/* Animated Background */}
       <motion.div
@@ -85,7 +95,11 @@ export default function AboutPage() {
             fill="#6E42C1"
             initial={{ r: 160 }}
             animate={{ r: 240 }}
-            transition={{ duration: 12, repeat: Infinity, repeatType: "reverse" }}
+            transition={{
+              duration: 12,
+              repeat: Infinity,
+              repeatType: "reverse",
+            }}
           />
           <motion.ellipse
             cx="680"
@@ -95,7 +109,11 @@ export default function AboutPage() {
             fill="#8A63E6"
             initial={{ rx: 160 }}
             animate={{ rx: 240 }}
-            transition={{ duration: 10, repeat: Infinity, repeatType: "reverse" }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              repeatType: "reverse",
+            }}
           />
         </svg>
       </motion.div>
@@ -116,9 +134,9 @@ export default function AboutPage() {
               variants={fadeInUp}
               className="mt-6 text-lg leading-relaxed text-slate-600"
             >
-              Praxire is a product-first software studio founded by Vishal and Mohamed.
-              We design, build and scale digital products using modern tools and a
-              human-centered engineering process.
+              Praxire is a product-first software studio founded by Vishal and
+              Mohamed. We design, build and scale digital products using modern
+              tools and a human-centered engineering process.
             </motion.p>
 
             <motion.div variants={fadeInUp} className="mt-8 flex flex-wrap gap-3">
@@ -136,28 +154,29 @@ export default function AboutPage() {
               </a>
             </motion.div>
 
-            {/* 📌 NUMBER ANIMATION ADDED HERE */}
+            {/* Number Animation */}
             <motion.div
               variants={fadeInUp}
               className="mt-8 grid grid-cols-3 gap-4 text-center"
             >
               <div>
                 <div className="text-2xl font-bold">
-                  <CountUp end={50} />+
+                  <CountUp end={4} />+
                 </div>
                 <div className="text-sm text-slate-500">Projects delivered</div>
               </div>
 
               <div>
                 <div className="text-2xl font-bold">
-                  <CountUp end={20} />+
+                  <CountUp end={5} />+
                 </div>
                 <div className="text-sm text-slate-500">Team members</div>
               </div>
 
               <div>
                 <div className="text-2xl font-bold">
-                  <CountUp end={4.8} />/5
+                  <CountUp end={4.8} />
+                  /5
                 </div>
                 <div className="text-sm text-slate-500">Avg client rating</div>
               </div>
@@ -204,14 +223,11 @@ export default function AboutPage() {
               Our mission
             </motion.h2>
             <motion.p variants={fadeInUp} className="mt-4 text-slate-600">
-              Build modern digital products that solve real problems with engineering
-              excellence and human-centered design.
+              Build modern digital products that solve real problems with
+              engineering excellence and human-centered design.
             </motion.p>
 
-            <motion.div
-              variants={fadeInUp}
-              className="mt-8 grid sm:grid-cols-2 gap-6"
-            >
+            <motion.div variants={fadeInUp} className="mt-8 grid sm:grid-cols-2 gap-6">
               <div className="p-6 bg-white rounded-2xl shadow">
                 <div className="text-lg font-semibold">User-first design</div>
                 <div className="mt-2 text-sm text-slate-500">
@@ -295,7 +311,7 @@ export default function AboutPage() {
           >
             {[
               { name: "Vishal", role: "Co-Founder", bio: "Product & Frontend Lead" },
-              { name: "Mohamed", role: "Co-Founder", bio: "Engineering Lead" },
+              { name: "Mohamed", role: "Co-Founder", bio: "Engineering Lead & Strategist" },
             ].map((t, i) => (
               <motion.div
                 key={t.name}

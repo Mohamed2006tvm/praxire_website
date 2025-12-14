@@ -6,6 +6,7 @@ import ServicePage from "./Components/ServicePage";
 import ContactPage from "./Components/ContactPage";
 import Preloader from "./Components/Preloader";
 import ScrollToTop from "./Components/ScrollToTop";
+import AboutPage from "./Components/AboutPage";
 const App = () => {
   const [loading, setLoading] = useState(true);
 
@@ -24,6 +25,7 @@ const App = () => {
           <ScrollToTop />   {/* <-- THIS FIXES THE SCROLL ISSUE */}
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/service" element={<ServicePage />} />
             <Route path="/contact" element={<ContactPage />} />
           </Routes>
