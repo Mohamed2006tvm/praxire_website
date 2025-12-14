@@ -116,6 +116,7 @@ export default function AboutPage() {
             }}
           />
         </svg>
+        
       </motion.div>
 
       {/* Content */}
