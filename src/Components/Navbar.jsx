@@ -7,43 +7,43 @@ import "./Navbar.css";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  // const [text, setText] = useState("");
-  // const [loopIndex, setLoopIndex] = useState(0);
-  // const [isDeleting, setIsDeleting] = useState(false);
+  const [text, setText] = useState("");
+  const [loopIndex, setLoopIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  // const words = ["Praxire", "PX"];
-  // const typingSpeed = isDeleting ? 80 : 150;
-  // const pauseTime = 1000;
+  const words = ["Praxire", "PX"];
+  const typingSpeed = isDeleting ? 80 : 150;
+  const pauseTime = 1000;
 
-  // useEffect(() => {
-  //   const handleResize = () => setIsMobile(window.innerWidth <= 768);
-  //   handleResize();
-  //   window.addEventListener("resize", handleResize);
-  //   return () => window.removeEventListener("resize", handleResize);
-  // }, []);
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-  // // ✨ Typing animation (your previous one)
-  // useEffect(() => {
-  //   const current = loopIndex % words.length;
-  //   const fullText = words[current];
+  // ✨ Typing animation (your previous one)
+  useEffect(() => {
+    const current = loopIndex % words.length;
+    const fullText = words[current];
 
-  //   if (!isDeleting && text === fullText) {
-  //     setTimeout(() => setIsDeleting(true), pauseTime);
-  //   } else if (isDeleting && text === "") {
-  //     setIsDeleting(false);
-  //     setLoopIndex(loopIndex + 1);
-  //   }
+    if (!isDeleting && text === fullText) {
+      setTimeout(() => setIsDeleting(true), pauseTime);
+    } else if (isDeleting && text === "") {
+      setIsDeleting(false);
+      setLoopIndex(loopIndex + 1);
+    }
 
-    // const timeout = setTimeout(() => {
-    //   setText((prev) =>
-    //     isDeleting
-    //       ? fullText.substring(0, prev.length - 1)
-    //       : fullText.substring(0, prev.length + 1)
-    //   );
-    // }, typingSpeed);
+    const timeout = setTimeout(() => {
+      setText((prev) =>
+        isDeleting
+          ? fullText.substring(0, prev.length - 1)
+          : fullText.substring(0, prev.length + 1)
+      );
+    }, typingSpeed);
 
-    // return () => clearTimeout(timeout);
-  // }, [text, isDeleting, loopIndex]);
+    return () => clearTimeout(timeout);
+  }, [text, isDeleting, loopIndex]);
 
   const activeLinkClasses = "text-[#8F62F6] font-bold";
   const defaultLinkClasses =
