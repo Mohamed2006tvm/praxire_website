@@ -311,8 +311,8 @@ export default function AboutPage() {
             className="mt-6 grid sm:grid-cols-2 gap-6"
           >
             {[
-              { name: "Vishal", role: "Co-Founder", bio: "Product & Frontend Lead" },
-              { name: "Mohamed", role: "Co-Founder", bio: "Engineering Lead & Strategist" },
+              { name: "Vishal", role: "Founder", bio: "Product & Frontend Lead" },
+              { name: "Mohamed", role: "Founder", bio: "Engineering Lead & Strategist" },
             ].map((t, i) => (
               <motion.div
                 key={t.name}
